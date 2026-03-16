@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
 
-# Prerequisite
-# Make sure you set secret enviroment variables in CI
-# DOCKER_USERNAME
-# DOCKER_PASSWORD
-
 set -e
 
-# usage
 Usage() {
-  echo "$0 <image_name>"
+  echo "$0 <image_name> [platforms] [tag]"
+  echo "Example:"
+  echo "  $0 dfimage linux/amd64,linux/arm64 latest"
 }
 
 if [ $# -eq 0 ]; then
@@ -17,14 +13,13 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-image="alpine/$1"
+image="ghcr.io/machanirobotics-labs/$1"
 platform="${2:-linux/arm/v7,linux/arm64/v8,linux/arm/v6,linux/amd64,linux/ppc64le,linux/s390x}"
+tag="${3:-latest}"
 
-curl -H "Cache-Control: no-cache" -sL "https://raw.githubusercontent.com/alpine-docker/multi-arch-libs/stable/functions.sh" -o functions.sh
-source functions.sh
-
-tag=$(get_latest_release alpine-docker/dfimage)
-build_arg="VERSION=${tag}"
-
-echo "Building image for tag: ${tag}"
-build_docker_image "${tag}" "${image}" "${platform}" "${build_arg}"
+echo "Building and pushing ${image}:${tag}"
+docker buildx build \
+  --platform "${platform}" \
+  --tag "${image}:${tag}" \
+  --push \
+  .

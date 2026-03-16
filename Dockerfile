@@ -1,10 +1,11 @@
-FROM golang:1.14.4 AS builder
-ADD ./ /root/whaler_build
-WORKDIR /root/whaler_build
-RUN export CGO_ENABLED=0 && go build .
-RUN cp whaler /root/whaler
+FROM golang:1.25-alpine AS builder
+WORKDIR /src
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/dfimage .
 
-FROM alpine
-WORKDIR /root/
-COPY --from=builder /root/whaler .
-ENTRYPOINT ["./whaler"]
+FROM alpine:3.22
+WORKDIR /root
+COPY --from=builder /out/dfimage ./dfimage
+ENTRYPOINT ["./dfimage"]

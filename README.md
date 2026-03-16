@@ -1,4 +1,4 @@
-This image is built from the tool called `Whaler` from https://github.com/P3GLEG/Whaler
+This image is built from the tool called `dfimage` (originally from https://github.com/P3GLEG/Whaler)
 
 # Features
 
@@ -13,9 +13,9 @@ https://app.circleci.com/pipelines/github/alpine-docker/dfimage
 ### Docker image tags
 https://hub.docker.com/r/alpine/dfimage/tags/
 
-# Whaler
+# dfimage
 
-Whaler is a Go program which is designed to reverse engineer docker images into the Dockerfile that created it. It currently performs the following actions
+dfimage is a Go program which is designed to reverse engineer docker images into the Dockerfile that created it. It currently performs the following actions
 
 * Generates a Dockerfile from an Image
 * Searches added filenames for potential secret files

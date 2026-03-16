@@ -1,13 +1,13 @@
 <!--
-  Title: Whaler
+  Title: dfimage
   Description: reverse docker images easily 
   Author: pegleg
   -->
 
-# Whaler
+# dfimage
 
 
-Whaler is a Go program which is designed to reverse engineer docker images into the Dockerfile that created it.  It currently performs the following actions
+dfimage is a Go program which is designed to reverse engineer docker images into the Dockerfile that created it.  It currently performs the following actions
 
   - Generates a Dockerfile from an Image
   - Searches added filenames for potential secret files
@@ -20,14 +20,14 @@ Whaler is a Go program which is designed to reverse engineer docker images into 
 The easiest way is to run the tool in docker container:
 
 ```bash
-docker pull pegleg/whaler
-docker run -t --rm -v /var/run/docker.sock:/var/run/docker.sock:ro pegleg/whaler -sV=1.36 nginx:latest
+docker pull ghcr.io/machanirobotics-labs/dfimage
+docker run -t --rm -v /var/run/docker.sock:/var/run/docker.sock:ro ghcr.io/machanirobotics-labs/dfimage -sV=1.36 nginx:latest
 ```
 
 ```bash
-docker build --rm -t pegleg/whaler .
-alias whaler="docker run -t --rm -v /var/run/docker.sock:/var/run/docker.sock:ro pegleg/whaler"
-whaler -sV=1.36 nginx:latest
+docker build --rm -t ghcr.io/machanirobotics-labs/dfimage .
+alias dfimage="docker run -t --rm -v /var/run/docker.sock:/var/run/docker.sock:ro ghcr.io/machanirobotics-labs/dfimage"
+dfimage -sV=1.36 nginx:latest
 ```
 
 This tool will pull target docker image automatically. Parameter `-sV=1.36` is not always required.
@@ -42,8 +42,8 @@ go build .
 
 ### How to run it
 ```go
-./Whaler
-Usage of ./Whaler:
+./dfimage
+Usage of ./dfimage:
   -f string
     	File containing images to analyze seperated by line
   -filter
